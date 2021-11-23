@@ -1,1 +1,2 @@
-unpackai[deploy]
+fastai>=2.5
+streamlit

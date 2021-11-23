@@ -1,7 +1,8 @@
-from pathlib import Path
-
+"""Streamlit App to show predictions of seasons based on uniform"""
 import streamlit as st
-from unpackai.deploy.cv import get_image, get_learner
+from fastai.learner import load_learner
+
+from utils import get_image
 
 st.set_page_config(page_title="SES Season Detector", page_icon="🚀")
 st.image("https://qcloud.dpfile.com/pc/FRdBM9z9EBQaO-sql--xoytCJIs5jxu7hvreDLrwzbuLlNhlT-_tpcDqr48eEAibbKcq9vnEaGy3xLEf-_v_oA.jpg")
@@ -9,12 +10,12 @@ st.title("SES Season Detector")
 st.write("*by Jeff (Estelle's dad)*")
 st.write("---")
 
+# Because model is created with this function, we need to redefine it here
 get_season = None
 
 version = st.sidebar.radio("Version", ("v1", "v2"))
-learn = get_learner(f"ses_uniforms_season_{version}.pkl")
+learn = load_learner(f"ses_uniforms_season_{version}.pkl")
 vocab = learn.dls.vocab
-
 
 def display_prediction(pic):
     img = get_image(pic)
