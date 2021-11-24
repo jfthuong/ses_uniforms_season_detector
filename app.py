@@ -1,9 +1,11 @@
 """Streamlit App to show predictions of seasons based on uniform"""
+from pathlib import Path
+
 import streamlit as st
 
 from utils import get_image, get_learner
 
-st.set_page_config(page_title="SES Season Detector", page_icon="🚀")
+st.set_page_config(page_title="SES Season Detector", page_icon="🍂")
 st.image("https://qcloud.dpfile.com/pc/FRdBM9z9EBQaO-sql--xoytCJIs5jxu7hvreDLrwzbuLlNhlT-_tpcDqr48eEAibbKcq9vnEaGy3xLEf-_v_oA.jpg")
 st.title("SES Season Detector")
 st.write("*by Jeff (Estelle's dad)*")
@@ -26,13 +28,17 @@ def display_prediction(pic):
     col_pred.metric(f"Probability", f"{probabilities[idx].item()*100:.2f}%")
 
 
-select = st.radio("How to load pictures?", ["from files", "from URL"])
+select = st.radio("How to load pictures?", ["from files", "from URL", "from Samples"])
 st.write("---")
 
 if select == "from URL":
     url = st.text_input("url")
     if url:
         display_prediction(url)
+
+elif select == "from Samples":
+    for pic in Path(__file__).parent.glob("samples/*.jpg"):
+        display_prediction(pic)
 
 else:
     pictures = st.file_uploader("Choose pictures", accept_multiple_files=True)
