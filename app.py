@@ -37,7 +37,8 @@ if select == "from URL":
         display_prediction(url)
 
 elif select == "from Samples":
-    for pic in Path(__file__).parent.glob("samples/*.jpg"):
+    pictures = sorted(Path(__file__).parent.glob("samples/*.jpg"))
+    for pic in pictures:
         display_prediction(pic)
 
 else:
